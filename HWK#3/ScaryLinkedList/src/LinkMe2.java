@@ -4,80 +4,75 @@ import java.util.Scanner;
 
 public class LinkMe2 {
 
-    node front;
-    node temp;
+    Node front;
+    Node temp;
 
     void init(){
         front = null;
     }
 
-    node makeNode(int num, String name){
-        node newNode = new node();
-        newNode.data = num;
-        newNode.name = name;
-        newNode.next = null;
-        return newNode;
+    Node makeNode(int num, String name){
+        return new Node(num, name);
     }
 
-    node findTail(){
-        node current = front;
-        while(current.next != null){
-            current = current.next;
+    Node findTail(){
+        Node current = front;
+        while(current.getNext() != null){
+            current = current.getNext();
         }
         return current;
     }
 
     void showList(){
-        node c = front;
+        Node c = front;
         while(c != null){
-            System.out.println(c.name);
-            c = c.next;
+            System.out.println(c.getName());
+            c = c.getNext();
         }
     }
 
-    node insert(int num, String name){
+    Node insert(int num, String name){
 
-        node prev, curr;
-        node temp = makeNode(num, name);
+        Node prev, curr;
+        Node temp = makeNode(num, name);
         boolean searching;
 
-        if(num < front.data){
+        if(num < front.getData()){
             temp = makeNode(num, name);
-            temp.next = front;
+            temp.setNext(front);
             front = temp;
         }
         else if(front == null){
             temp = makeNode(num, name);
             temp = front;
-            temp.next = null;
-
+            temp.setNext(null);
         }
         else{
             curr = front;
             prev = curr;
             searching = true;
             while(searching){
-                if(curr.data == num){
+                if(curr.getData() == num){
                     System.out.println("Duplicate name. Inserting after original...");
                     temp = makeNode(num, name);
-                    curr.next = temp;
-                    temp.next = curr.next;
+                    curr.setNext(temp);
+                    temp.setNext(curr.getNext());
                     searching = false;
                 }
-                else if(curr.data < num){
-                    if(curr.next == null){
-                        curr.next = makeNode(num, name);
+                else if(curr.getData() < num){
+                    if(curr.getNext() == null){
+                        curr.setNext(makeNode(num, name));
                         searching = false;
                     }
                     else{
                         prev = curr;
-                        curr = curr.next;
+                        curr = curr.getNext();
                     }
                 }
-                else if(curr.data > num){
+                else if(curr.getData() > num){
                     temp = makeNode(num, name);
-                    temp.next = curr;
-                    prev.next = temp;
+                    temp.setNext(curr);
+                    prev.setNext(temp);
                     searching = false;
                 }
             }
